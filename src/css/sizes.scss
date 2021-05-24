@@ -1,0 +1,72 @@
+@for $i from 0 through 19{
+  .w-px-#{$i} {
+    width: #{$i}px;
+  }
+  .h-px-#{$i} {
+    height: #{$i}px;
+  }
+  .wh-px-#{$i} {
+    width: #{$i}px;
+    height: #{$i}px;
+  }
+}
+@for $i from 2 through 9 {
+  .w-px-#{$i*10} {
+    width: #{$i * 10px};
+  }
+
+  .h-px-#{$i*10} {
+    height: #{$i * 10px};
+  }
+
+  .wh-px-#{$i*10} {
+    width: #{$i * 10px};
+    height: #{$i * 10px};
+  }
+}
+
+@for $i from 2 through 10 {
+  .w-px-#{$i*50} {
+    width: #{$i * 50px};
+  }
+  .h-px-#{$i*50} {
+    height: #{$i * 50px};
+  }
+  .wh-px-#{$i*50} {
+    width: #{$i * 50px};
+    height: #{$i * 50px};
+  }
+}
+
+@for $i from 0 through 10 {
+  .w-#{$i*10} {
+    width: #{$i * 10%};
+  }
+  .h-#{$i*10} {
+    height: #{$i * 10%};
+  }
+  .wh-#{$i*10} {
+    width: #{$i * 10%};
+    height: #{$i * 10%};
+  }
+}
+
+$sizes: (
+  "ic": 18px,
+  "medium": 28px,
+  "small": 48px,
+  "large": 150px,
+  "x-large": 300px,
+);
+
+
+@mixin sizes($name){
+  @each $sName, $size in $sizes {
+      .#{$name}-#{$sName} {
+          width: $size;
+          height: $size;
+          @content;
+          
+      }
+  }
+}

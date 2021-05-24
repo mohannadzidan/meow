@@ -1,0 +1,99 @@
+@import "../css/bootstrap-variables.scss";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+$icon-size: 24px;
+.side-bar {
+    display: flex;
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    align-items: center;
+
+    @include media-breakpoint-down(sm) {
+        width: min-content;
+        width: 100%;
+        border-bottom: 1px solid $gray-300;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+    @include media-breakpoint-between(sm, lg) {
+        width: min-content;
+        height: 100%;
+        padding: 0 0.5rem;
+        flex-direction: column;
+    }
+    @include media-breakpoint-up(lg) {
+        align-items: flex-start;
+        width: 20rem;
+        height: 100%;
+        padding-left: 3rem;
+        padding-right: 1.5rem;
+        padding-top: 0.5rem;
+        flex-direction: column;
+    }
+}
+.boka {
+    border-radius: 50%;
+    padding: $icon-size / 2;
+    height: 2 * $icon-size;
+    width: 2 * $icon-size;
+    color: $primary;
+    fill: $primary;
+    &:hover {
+        background-color: rgba($primary, 0.05);
+    }
+}
+.sidebar-btn {
+    $yPadding: 0.5rem;
+    $xPadding: $icon-size / 2;
+    display: block;
+    transition: background-color 0.2s;
+    user-select: none;
+    border-radius: 50%;
+    cursor: pointer;
+
+    padding: $icon-size / 2;
+    @include media-breakpoint-up(lg) {
+        padding: $yPadding $xPadding $yPadding $xPadding;
+        border-radius: 1000rem;
+    }
+    font-weight: 700;
+    font-size: 14pt;
+    text-decoration: unset;
+    color: black;
+    fill: black;
+    &:hover {
+        background-color: rgba($primary, 0.05);
+        color: $primary;
+        fill: $primary;
+    }
+    & svg:nth-child(1) {
+        display: inline-block;
+    }
+    & svg:nth-child(2) {
+        display: none;
+    }
+    & svg {
+        height: $icon-size;
+        width: $icon-size;
+        @include media-breakpoint-up(lg) {
+            margin-inline-end: 1rem;
+        }
+    }
+
+    @include media-breakpoint-between(sm, lg) {
+    }
+
+    &.selected {
+        & svg:nth-child(1) {
+            display: none;
+        }
+        & svg:nth-child(2) {
+            display: inline-block;
+        }
+        color: $primary;
+        fill: $primary;
+    }
+}

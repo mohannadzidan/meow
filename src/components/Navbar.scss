@@ -1,0 +1,36 @@
+@import "../css/bootstrap-variables.scss";
+.navbar {
+    padding-left: 3rem;
+}
+.account-popover {
+    overflow: hidden;
+    pointer-events: all;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    & .interaction {
+        width: 150px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        text-align: center;
+        transition: color 0.2s, background-color 0.2s;
+        cursor: pointer;
+        color: $secondary;
+        &:hover {
+            color: $primary;
+            background-color: rgba($primary, 0.03);
+        }
+    }
+    &.show {
+        pointer-events: all;
+        opacity: 1;
+    }
+}
+
+@mixin bg($name, $color) {
+    .bg-#{$name} {
+        background-color: $color;
+    }
+}
+@include bg(primary, $primary);
+@include bg(secondary, $secondary);

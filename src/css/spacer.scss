@@ -1,0 +1,37 @@
+//@import "./bootstrap-variables.scss";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+$bootstrap-breakpoints: (xs, sm, md, lg, xl);
+$margin-directions: (
+    "horizontal": margin-inline-end,
+    "vertical": margin-bottom,
+);
+
+$spaces: (
+    "small": 0.5rem,
+    "mid": 1rem,
+    "large": 2rem,
+);
+
+// non responsive
+@each $spaceName, $spaceSize in $spaces {
+    @each $direction, $property in $margin-directions {
+        .spacer-#{$direction}-#{$spaceName} > :not(:last-child) {
+            #{$property}: $spaceSize;
+        }
+    }
+}
+
+// responsive
+@each $spaceName, $spaceSize in $spaces {
+    @each $breakpoint in $bootstrap-breakpoints {
+        @each $direction, $property in $margin-directions {
+            .spacer-#{$breakpoint}-#{$direction}-#{$spaceName} > :not(:last-child) {
+                margin-bottom: 0;
+                @include media-breakpoint-down($breakpoint) {
+                    #{$property}: $spaceSize;
+                }
+            }
+        }
+    }
+}

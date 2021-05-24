@@ -1,0 +1,49 @@
+@keyframes FadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes BouncyScale {
+    0% {
+        transform: scale(1, 1);
+    }
+    25% {
+        transform: scale(0.5, 0.5);
+    }
+    50% {
+        transform: scale(1.2, 1.2);
+    }
+    100% {
+        transform: scale(1, 1);
+    }
+}
+@keyframes FadeBackgroundIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        background-color: 1;
+    }
+}
+@mixin animation-fade-mixin($name, $prop, $from, $to) {
+    @keyframes #{$name} {
+        0% {
+            #{$prop}: $from;
+        }
+        100% {
+            #{$prop}: $to;
+        }
+    }
+}
+
+@mixin color-fade-mixin($name, $prop, $from, $to) {
+    @include animation-fade-mixin($name, color, $from, $to)
+}
+
+@mixin background-color-fade-mixin($name, $prop, $from, $to) {
+    @include animation-fade-mixin($name, background-color, $from, $to)
+}
+@include animation-fade-mixin(OpacityFade, opacity, 0, 1);

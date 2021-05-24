@@ -1,0 +1,53 @@
+@import "../css/animations.scss";
+@import "../css/sizes.scss";
+@import "../css/sl-loader.scss";
+@import "../css//bootstrap-variables.scss";
+@import "../css/mixins.scss";
+@use "sass:color";
+
+img {
+    @include noSelect();
+}
+@mixin interaction($color) {
+    @include noSelect();
+    cursor: pointer;
+    color: $secondary;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        color: $color;
+        & .icon {
+            color: $color;
+        }
+    }
+    &.notify {
+        color: $color;
+        & .icon {
+            animation: BouncyScale 0.5s;
+        }
+    }
+}
+
+.interaction-danger {
+    @include interaction($danger);
+}
+.interaction-success {
+    @include interaction($success);
+}
+
+.post {
+    overflow: hidden;
+    animation: PostShowAnimation 0.3s;
+}
+
+@keyframes PostShowAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

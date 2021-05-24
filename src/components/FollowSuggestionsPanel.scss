@@ -1,0 +1,38 @@
+@import "../css/bootstrap-variables.scss";
+.follow-suggestions-panel {
+    $radius: 0.5rem;
+    width: 22rem;
+    border-radius: $radius;
+    background: $light;
+
+    & .header {
+        font-weight: bold;
+        padding: 1rem;
+        border-bottom: 1px solid $gray-300;
+    }
+
+    & .footer {
+        padding: 1rem;
+        border-top: 1px solid $gray-300;
+    }
+    & .suggestion {
+        padding: 0.5rem;
+        width: 100%;
+        cursor: pointer;
+        background: $light;
+        transition: background-color 0.2s;
+        &:hover {
+            background: darken($light, 5%);
+        }
+
+        
+    }
+}
+
+.click-here {
+    color: $primary;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}

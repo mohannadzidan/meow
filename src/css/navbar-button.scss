@@ -1,0 +1,80 @@
+@use "sass:color";
+@import './bootstrap-variables.scss';
+@import "../css/mixins.scss";
+
+@mixin nav-btn($color) {
+    @include noSelect();
+    cursor: pointer;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 30%;
+    margin-left: 5px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    color: $color;
+    &:hover {
+        background-color: rgba($color, 0.1); // var(--primary-a);
+    }
+    &.notify{
+        color: $danger;
+        background-color: rgba($danger, 0.1);
+        &:hover {
+            background-color: $danger;
+            color: white;
+            &::before {
+                opacity: 0;
+                animation-name: none;
+            }
+        }
+        &::before {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            content: '';
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 100%;
+            border: 2px solid $danger;
+            animation-name: notification-circle;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        }
+    }
+
+    & div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    & svg {
+        display: block;
+        margin: auto;
+    }
+
+}
+
+.nav-btn{
+    @include nav-btn($secondary);
+    &-secondary{
+        @extend .nav-btn;
+    }
+}
+@keyframes notification-circle {
+    from {
+        width: 2px;
+        height: 2px;
+        opacity: 1;
+
+    }
+    to {
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+}
