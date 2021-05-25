@@ -3,9 +3,11 @@ import "./Post.scss";
 import * as meow from "../Meow.js";
 import { CommentsSection } from './CommentsSection';
 import { randomSkeletonLines } from '../skeleton.js';
-import { formatDate } from './TimeUtils';
+
 import { Clock, Heart, HeartFill, Share } from 'react-bootstrap-icons';
 import LikeButton from './LikeButton';
+import { Link } from 'react-router-dom';
+import UserLabel from './UserLabel';
 class Post extends React.Component {
     constructor(props) {
         super(props);
@@ -69,50 +71,42 @@ class Post extends React.Component {
         const user = this.state.user;
         return (
             <div className={this.props.share ? "post border border-secondary rounded rounded-3 p-2" : "post"} >
-                <div className="d-flex">
-                    <img alt={user.displayName} className="rounded-circle mr-2 wh-px-40 me-2" src={user.displayImageUrl} />
-                    <div className="flex-grow-1">
-                        <span className="font-weight-bold text-primary">
-                            {user.displayName}
-                        </span>
-                        <span className="font-weight text-secondary">
-                            @{user.username}
-                        </span>
-                        <div className="row align-items-center gx-1 mb-2">
-                            <Clock className='col-auto' size={12} />
-                            <span className="col-auto text-secondary small">
-                                {formatDate(post.timestamp)}
-                            </span>
-                        </div>
-                        <div>
-                            {this.state.post.content}
-                        </div>
-                        {/* post content */}
-                        {this.state.sharedPost ? <Post post={this.state.sharedPost} share /> : undefined}
-                        {/* interactions */}
-                        {!this.props.share
-                            ?
-                            <div className="my-2">
-                                <div className="d-flex">
-                                    <div onClick={this.like} className={this.state.liked ? 'interaction-danger notify px-2 py-1' : 'interaction interaction-danger px-2 py-1'}>
-                                        {this.state.liked ? <HeartFill className='icon' size={18} /> : <Heart className='icon' size={18} />}
-                                        <span className='mx-2'>{this.state.likes}</span>
-                                    </div>
-                                    <div className='interaction-success px-2 py-1'>
-                                        <Share size={18}/>
-                                        <span className='mx-2'>{this.state.shares}</span>
-                                    </div>
+                <UserLabel
+                    uid={user.uid}
+                    displayImageUrl={user.displayImageUrl}
+                    timestamp={post.timestamp}
+                    displayName={user.displayName}
+                    username={user.username}
+                    size={40}
+                />
+                <div>
+
+                    <div>
+                        {this.state.post.content}
+                    </div>
+                    {/* post content */}
+                    {this.state.sharedPost ? <Post post={this.state.sharedPost} share /> : undefined}
+                    {/* interactions */}
+                    {!this.props.share
+                        ?
+                        <div className="my-2">
+                            <div className="d-flex">
+                                <div onClick={this.like} className={this.state.liked ? 'interaction-danger notify px-2 py-1' : 'interaction interaction-danger px-2 py-1'}>
+                                    {this.state.liked ? <HeartFill className='icon' size={18} /> : <Heart className='icon' size={18} />}
+                                    <span className='mx-2'>{this.state.likes}</span>
+                                </div>
+                                <div className='interaction-success px-2 py-1'>
+                                    <Share size={18} />
+                                    <span className='mx-2'>{this.state.shares}</span>
                                 </div>
                             </div>
-                            : undefined}
-                        {/* comments section */}
-                        {this.props.share === undefined ? <CommentsSection post={post}></CommentsSection> : undefined}
+                        </div>
+                        : undefined}
+                    {/* comments section */}
+                    {this.props.share === undefined ? <CommentsSection post={post}></CommentsSection> : undefined}
 
-
-                    </div>
 
                 </div>
-
             </div>
         );
     }

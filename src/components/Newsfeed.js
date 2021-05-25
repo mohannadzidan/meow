@@ -33,10 +33,6 @@ class Newsfeed extends React.Component {
                         this.state.posts.map((post) => (<li className="list-group-item" key={post.uid} ><Post post={post} /></li>))
                     }
                 </ul>
-                <div className='col-auto d-none d-lg-block'>
-                    <FollowSuggestionsPanel className='sticky-top' />
-                </div>
-
             </div>
 
         );

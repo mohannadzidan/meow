@@ -1,0 +1,46 @@
+{
+	"Create class react component": {
+		"scope": "javascript,typescript",
+		"prefix": "creact",
+		"body": [
+			"import React from 'react';",
+			"",
+			"class ${1:Component} extends React.Component {",
+			"\tconstructor(props) {",
+			"\t\tsuper(props);",
+			"\t\tthis.state = {",
+			"\t\t\t$2",
+			"\t\t}",
+			"\t}",
+			"",
+            "\tcomponentDidMount() {}",
+			"",
+            "\tcomponentWillUnmount() {}",
+			"",
+			"\trender() {",
+			"\t\treturn (",
+			"\t\t\t<${3:div}>",
+			"\t\t\t\t$4",
+			"\t\t\t</div>",
+			"\t\t);",
+			"\t}",
+			"}",
+            "export default ${1:Component};"
+		],
+		"description": "creates class react component"
+	},
+	"Create function react component": {
+		"scope": "javascript,typescript",
+		"prefix": "freact",
+		"body": [
+			"function ${1:Component}(props) {",
+			"\treturn (",
+			"\t\t<${2:div}>",
+			"\t\t\t$3",
+			"\t\t</div>",
+			"\t);",
+			"}"
+		],
+		"description": "creates function react component"
+	}
+}

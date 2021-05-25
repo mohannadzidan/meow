@@ -10,7 +10,7 @@ $icon-size: 24px;
     left: 0;
     z-index: 100;
     align-items: center;
-
+    padding: 0 0.5rem;
     @include media-breakpoint-down(sm) {
         width: min-content;
         width: 100%;
@@ -25,10 +25,11 @@ $icon-size: 24px;
         flex-direction: column;
     }
     @include media-breakpoint-up(lg) {
+        position: sticky;
+        top: 0;
+        left: 0;
         align-items: flex-start;
-        width: 20rem;
-        height: 100%;
-        padding-left: 3rem;
+        width: 16rem;
         padding-right: 1.5rem;
         padding-top: 0.5rem;
         flex-direction: column;
@@ -45,7 +46,8 @@ $icon-size: 24px;
         background-color: rgba($primary, 0.05);
     }
 }
-.sidebar-btn {
+
+.boga {
     $yPadding: 0.5rem;
     $xPadding: $icon-size / 2;
     display: block;
@@ -53,22 +55,30 @@ $icon-size: 24px;
     user-select: none;
     border-radius: 50%;
     cursor: pointer;
-
-    padding: $icon-size / 2;
-    @include media-breakpoint-up(lg) {
-        padding: $yPadding $xPadding $yPadding $xPadding;
-        border-radius: 1000rem;
-    }
-    font-weight: 700;
-    font-size: 14pt;
-    text-decoration: unset;
-    color: black;
-    fill: black;
     &:hover {
         background-color: rgba($primary, 0.05);
         color: $primary;
         fill: $primary;
     }
+    &:active {
+        background-color: rgba($primary, 0.15);
+        color: $primary;
+        fill: $primary;
+    }
+    @include media-breakpoint-up(lg) {
+        padding: $yPadding $xPadding $yPadding $xPadding;
+        border-radius: 1000rem;
+    }
+}
+.x{
+}
+.sidebar-btn {
+    @extend .boga;
+    font-weight: 700;
+    font-size: 14pt;
+    text-decoration: unset;
+    color: black;
+    fill: black;
     & svg:nth-child(1) {
         display: inline-block;
     }

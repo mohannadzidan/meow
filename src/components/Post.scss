@@ -51,3 +51,12 @@ img {
         opacity: 1;
     }
 }
+
+.user-display-name{
+    font-weight: bold;
+    color: $primary;
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}

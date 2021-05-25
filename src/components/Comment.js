@@ -5,6 +5,7 @@ import '../css/sizes.scss';
 import { randomSkeletonLines } from '../skeleton.js';
 import { formatDate } from './TimeUtils';
 import { Clock, Heart, HeartFill } from 'react-bootstrap-icons';
+import UserLabel from './UserLabel.js';
 
 
 
@@ -57,34 +58,26 @@ export class Comment extends React.Component {
             );
         }
         return (
-            <div className="d-flex p-1">
-                <div className="mr-2">
-                    <img alt={user.displayName} className="rounded-circle wh-px-30 -2" src={user.displayImageUrl} />
-                </div>
-                <div className="flex-grow-1">
-                    <div className="d-md-flex">
-                        <div className="mr-2">
-                            <span className="font-weight-bold text-primary">
-                                {user.displayName}
-                            </span>
-                            <span className="font-weight text-secondary">
-                                @{user.username}
-                            </span>
-                        </div>
+            <div className="ms-5">
+                <UserLabel
+                    uid={user.uid}
+                    displayImageUrl={user.displayImageUrl}
+                    displayName={user.displayName}
+                    username={user.username}
+                    size={30}
+                />
 
+                <div className="ms-5">{this.state.content}</div>
+                <div className="ms-5 d-flex align-items-center">
+                    <div onClick={this.like} className={this.state.liked ? 'interaction interaction-danger notify px-2 py-1' : 'interaction interaction-danger px-2 py-1'}>
+                        {this.state.liked ? <HeartFill size={18}></HeartFill> : <Heart size={18}></Heart>}
+                        <span className='mx-2'>{this.state.likes}</span>
                     </div>
-                    <div>{this.state.content}</div>
-                    <div className="d-flex align-items-center">
-                        <div onClick={this.like} className={this.state.liked ? 'interaction interaction-danger notify px-2 py-1' : 'interaction interaction-danger px-2 py-1'}>
-                            {this.state.liked ? <HeartFill size={18}></HeartFill> : <Heart size={18}></Heart>}
-                            <span className='mx-2'>{this.state.likes}</span>
-                        </div>
-                        <span className="col-auto text-secondary small">
-                            {formatDate(this.state.timestamp)}
-                        </span>
-                    </div>
-
+                    <span className="col-auto text-secondary small">
+                        {formatDate(this.state.timestamp)}
+                    </span>
                 </div>
+
             </div>
 
         );

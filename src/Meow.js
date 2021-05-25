@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-var root = 'http://192.168.1.33:3000/api';
+var root = 'http://192.168.1.35:3000/api';
 var cache = {
     users: {}
 }
@@ -18,7 +18,7 @@ var events = {
         event.handlers.push(handler);
         if (event.isFirstInsert) {
             event.isFirstInsert = false;
-            event.onFirstInsert.call(event);
+            event.onFirstInsert(event);
         }
         return handler;
     },
@@ -32,7 +32,7 @@ var events = {
 
     dispatch(eventName, args) {
         events[eventName].handlers.forEach(e => {
-            e.call(this, args);
+            e(this, args);
         });
     }
 }
@@ -78,7 +78,6 @@ export var auth = {
      * @returns {Promise<import("./MeowTypes").AuthenticatedUser>}
      */
     async signInWithToken(token) {
-        eraseCookie('id-token');
         const response = await fetch(this.url, {
             method: 'GET',
             headers: {
@@ -227,6 +226,25 @@ export var post = {
     },
     /**
      * 
+     * @param {string} uid 
+     * @returns {Promise<import("./MeowTypes").Post>}
+     */
+     async get(uid) {
+        const response = await fetch(this.url + '?uid=' + uid, {
+            method: 'GET',
+            headers: {
+                'ID-Token': auth.user?.token
+            }
+        });
+        if (response.status !== 200) {
+            throw response.clone();
+        }
+        let r = await response.json();
+        r.liked = r.liked === 1 ? true : false;
+        return r;
+    },
+    /**
+     * 
      * @param {string} uid
      * @returns {Promise<Response>} 
      */
@@ -241,7 +259,7 @@ export var post = {
 
     /**
      * 
-     * @param {number} offset
+     * @param {number} timestamp
      * @returns {Promise<Response>} 
      */
     async getNewsfeedPosts(timestamp) {
@@ -255,6 +273,25 @@ export var post = {
             throw response.clone();
         }
 
+        return response.json();
+    },
+     /**
+     * @param {string}
+     * @param {number} timestamp unix epoch time
+     * @returns {Promise<Response>} 
+     */
+      async getPostsBy(userUid, timestamp) {
+        const response = await fetch(this.url + '?user='+userUid+'&timestamp=' + timestamp, {
+            method: 'GET',
+            headers: {
+                'ID-Token': auth.user?.token
+            }
+        });
+        if (response.status !== 200) {
+            throw response.clone();
+        }
+        let res = await response.clone().json();
+        res.forEach(r => r.liked = r.liked === 1 ? true : false);
         return response.json();
     },
 }
@@ -346,7 +383,7 @@ export var follow = {
     * @returns {Promise<import("./MeowTypes").User[]>}
     */
     async followers(uid, offset) {
-        const response = await fetch(this.url + '/followers?uid='+uid+'&offset='+offset, {
+        const response = await fetch(this.url + '?get=followers&user=' + uid + '&offset=' + offset, {
             method: 'GET',
             headers: {
                 'ID-Token': auth.user?.token
@@ -365,8 +402,8 @@ export var follow = {
         * 
         * @returns {Promise<import("./MeowTypes").User[]>}
         */
-    async followings(uid, offset) {
-        const response = await fetch(this.url + '/followings?uid='+uid+'&offset='+offset, {
+    async followings(userUid, offset) {
+        const response = await fetch(this.url + '?get=followings&user=' + userUid + '&offset=' + offset, {
             method: 'GET',
             headers: {
                 'ID-Token': auth.user?.token
@@ -387,7 +424,7 @@ export var follow = {
      * @returns {Promise<import("./MeowTypes").SuggestedUser[]>}
      */
     async suggestions() {
-        const response = await fetch(this.url + '/suggestions', {
+        const response = await fetch(this.url + '?get=suggestions', {
             method: 'GET',
             headers: {
                 'ID-Token': auth.user?.token
@@ -408,7 +445,7 @@ export var follow = {
      * @returns {Promise<import("./MeowTypes").FollowToggleResponse>}
      */
     async toggle(uid) {
-        const response = await fetch(this.url + '?uid=' + uid, {
+        const response = await fetch(this.url + '?user=' + uid, {
             method: 'POST',
             headers: {
                 'ID-Token': auth.user?.token

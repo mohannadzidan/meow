@@ -1,0 +1,33 @@
+// @import "./css/bootstrap-variables.scss";
+// @import "../node_modules/bootstrap/scss/mixins";
+// @import "./css/mixins.scss";
+// @import "./css/spacer.scss";
+// @use 'sass:color';
+// $color: $indigo;
+
+.chairmaine {
+    background: url("../img/charmaine.jpg");
+}
+.profile-photo {
+}
+.header-photo {
+    position: relative;
+    height: 325px;
+    & img:nth-child(1) {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        object-fit: cover;
+    }
+    & img:nth-child(2) {
+        position: absolute;
+        z-index: 100;
+        left: 0;
+        bottom: 0px;
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-inline-start: 1.5rem;
+        border: 0.3rem solid white;
+    }
+}

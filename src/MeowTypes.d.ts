@@ -44,7 +44,9 @@ export type AbstractComment = {
 export type Comment = AbstractComment & {
     uid: string
     userUid: string
-    timestamp: Date
+    timestamp: Date,
+    liked: boolean,
+    likes: number
 }
 
 export type AbstractPost = {
@@ -54,7 +56,8 @@ export type AbstractPost = {
 export type Post = AbstractPost & {
     uid: string
     timestamp: Date
-    userUid: string | null
+    userUid: string | null,
+    commentsSnapshot: Comment[]
 }
 
 export type FollowToggleResponse = {
