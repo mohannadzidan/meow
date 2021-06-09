@@ -1,48 +1,57 @@
 {
-  "name": "meow",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "dependencies": {
-    "@popperjs/core": "^2.9.2",
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^12.8.3",
-    "bootstrap": "^5.0",
-    "node-fetch": "^2.6.1",
-    "node-sass": "^5.0.0",
-    "react": "^17.0.2",
-    "react-bootstrap-icons": "^1.4.1",
-    "react-dom": "^17.0.2",
-    "react-popper": "^2.2.5",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
-  },
-  "scripts": {
-    "start": "title React && set PORT=3001 && react-scripts start",
-    "build": "react-scripts build && npm run post-build",
-    "clean-server": "if exist ..\\server\\build rmdir ..\\server\\build /s /q",
-    "post-build": "npm run clean-server && move build ../server/",
-    "eject": "react-scripts eject",
-    "testMeowAPI": "cls && echo 'begin test ###############' && node src/test/MeowAPITest.js"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "meow",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "@popperjs/core": "^2.9.2",
+        "@testing-library/jest-dom": "^5.12.0",
+        "@testing-library/react": "^11.2.6",
+        "@testing-library/user-event": "^12.8.3",
+        "bootstrap": "^5.0",
+        "dateformat": "^4.5.1",
+        "node-fetch": "^2.6.1",
+        "node-sass": "^5.0.0",
+        "react": "^17.0.2",
+        "react-bootstrap-icons": "^1.4.1",
+        "react-dom": "^17.0.2",
+        "react-popper": "^2.2.5",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "4.0.3",
+        "reactstrap": "^8.9.0",
+        "web-vitals": "^1.1.2"
+    },
+    "scripts": {
+        "start": "title React && set PORT=3001 && react-scripts start",
+        "build": "react-scripts build && npm run post-build",
+        "clean-server": "if exist ..\\server\\build rmdir ..\\server\\build /s /q",
+        "post-build": "npm run clean-server && move build ../server/",
+        "eject": "react-scripts eject",
+        "testMeowAPI": "cls && echo 'begin test ###############' && node src/test/MeowAPITest.js"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ],
+        "rules": {
+            "no-unused-vars": "off",
+            "jsx-a11y/alt-text": "off",
+            "no-unreachable": "off",
+            "eqeqeq": "off",
+            "jsx-a11y/anchor-is-valid": "off"
+        }
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }

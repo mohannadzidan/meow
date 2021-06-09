@@ -1,5 +1,5 @@
 import React from 'react';
-import * as meow from '../Meow.js';
+import { meow } from '../service/meow';
 import './UserFollowCard.scss';
 import UserLabel from './UserLabel.js';
 
@@ -17,15 +17,17 @@ class UserFollowCard extends React.Component {
         return (
             <div className='suggestion d-flex justify-content-between'>
                 <UserLabel
-                    uid={user.uid}
+                    id={user.id}
                     displayImageUrl={user.displayImageUrl}
                     displayName={user.displayName}
                     username={user.username}
                     size={40}
-                />
+                >
+                    <span className='text-muted small'>{this.state.user.connections} Mutual friends</span>
+                </UserLabel>
                 <button className={this.state.followed ? 'follow-btn followed' : 'follow-btn'} onClick={() => {
-                    meow.follow.toggle(this.state.user.uid).then(e => {
-                        this.setState({ followed: e.followed });
+                    meow.people.toggleFollowUser(this.state.user.id).then(e => {
+                        this.setState({ followed: e.state });
                     }).catch(e => {
                         console.error(e);
                     });

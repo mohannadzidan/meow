@@ -1,5 +1,5 @@
 import React from 'react';
-import * as meow from '../Meow.js';
+import {meow} from '../service/meow';
 import './FollowSuggestionsPanel.scss';
 import UserFollowCard from './UserFollowCard.js';
 class FollowSuggestionsPanel extends React.Component {
@@ -13,7 +13,7 @@ class FollowSuggestionsPanel extends React.Component {
     }
 
     componentDidMount() {
-        meow.follow.suggestions().then(suggestions => {
+        meow.people.getFollowSuggestions().then(suggestions => {
             this.setState({ suggestions: suggestions });
         }).catch(e => {
             console.error(e);

@@ -1,0 +1,28 @@
+@import "../css/bootstrap-variables.scss";
+.newsfeed-separator{
+    height:10px;
+    width:100%;
+    background-color: $gray-100;
+    border-left: 1px solid $gray-300;
+    border-right: 1px solid $gray-300;
+}
+
+.new-post {
+    overflow: hidden;
+    animation: NewPostShowAnimation 0.2s;
+
+}
+
+@keyframes NewPostShowAnimation {
+    0% {
+        height: 0px;
+        opacity: 0;
+
+    }
+    50% {
+
+    }
+    100% {
+        opacity: 1;
+    }
+}

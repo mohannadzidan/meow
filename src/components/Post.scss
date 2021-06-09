@@ -38,25 +38,16 @@ img {
 
 .post {
     overflow: hidden;
-    animation: PostShowAnimation 0.3s;
+    animation: PostShowAnimation 0.6s;
+
 }
 
 @keyframes PostShowAnimation {
     0% {
         opacity: 0;
-        transform: translateY(30px);
     }
     100% {
-        transform: translateY(0);
         opacity: 1;
     }
 }
 
-.user-display-name{
-    font-weight: bold;
-    color: $primary;
-    cursor: pointer;
-    &:hover{
-        text-decoration: underline;
-    }
-}

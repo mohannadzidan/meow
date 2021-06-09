@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Post.scss";
-import * as meow from "../Meow.js";
+import { meow } from "../service/meow";
 import { CommentsSection } from './CommentsSection';
 import { randomSkeletonLines } from '../skeleton.js';
 
@@ -15,19 +15,20 @@ class Post extends React.Component {
             post: props.post,
             isLoaded: false,
             liked: props.post.liked,
-            likes: props.post.likes,
-            shares: props.post.shares,
-            comments: props.post.comments,
+            likes: props.post.likesCount,
+            shares: props.post.sharesCount,
+            comments: props.post.commentsCount,
         }
         this.like = this.like.bind(this);
+        this.delete = this.delete.bind(this);
     }
 
     like() {
-        meow.like.toggle(this.state.post.uid).then(e => {
-            this.setState(e);
-        });
-        this.setState({
-            liked: !this.state.liked,
+        meow.newsfeed.togglePostLike(this.state.post.id).then(state => {
+            const likes = state.liked ? this.state.likes + 1 : this.state.likes - 1;
+            this.setState({ liked: state.liked, likes: likes });
+        }).catch(e => {
+            console.error(e);
         });
     }
 
@@ -35,25 +36,33 @@ class Post extends React.Component {
         const post = this.props.post;
         const promises = [];
         promises.push(
-            meow.user.getByUid(post.userUid)
+            meow.people.findUserById(post.userId)
                 .then(user => {
                     this.setState({ user: user });
                 })
         );
-        if (post.sharedPostUid && post.sharedPostUid !== null) {
+        if (post.sharedPostId && post.sharedPostId !== null) {
             promises.push(
-                meow.post.get(post.sharedPostUid).then(sharedPost => {
+                meow.newsfeed.getPost(post.sharedPostId).then(sharedPost => {
                     this.setState({ sharedPost: sharedPost });
                 }));
         }
-        Promise.all(promises).then(e => this.setState({ isLoaded: true }));
-
+        Promise.all(promises).then(e => {
+            this.setState({ isLoaded: true });
+        });
     }
 
+    delete() {
+        meow.newsfeed.deletePost(this.state.post.id).then(d => {
+            this.props.onDeletePost(this.state.post);
+        }).catch(console.error);
+    }
     render() {
+        const post = this.state.post;
+        const user = this.state.user;
         if (!this.state.isLoaded) {
             return (
-                <div  >
+                <div >
                     <div className="d-flex">
                         <div className="skeleton-circle mr-2 wh-px-50" />
                         <div className="flex-grow-1">
@@ -67,20 +76,21 @@ class Post extends React.Component {
                 </div>
             );
         }
-        const post = this.state.post;
-        const user = this.state.user;
+
+
+        const options = meow.auth.user.id ===this.state.post.userId? [{name: 'Delete', callback: () => this.delete()}]: undefined;
+
         return (
-            <div className={this.props.share ? "post border border-secondary rounded rounded-3 p-2" : "post"} >
+            <div ref={(c) => { this.container = c }} className={this.props.share ? "post border border-gray rounded rounded-3 p-2" : "post"} >
                 <UserLabel
-                    uid={user.uid}
+                    id={user.id}
                     displayImageUrl={user.displayImageUrl}
                     timestamp={post.timestamp}
                     displayName={user.displayName}
                     username={user.username}
-                    size={40}
-                />
-                <div>
-
+                    size={40}  
+                    options={options}
+                    >
                     <div>
                         {this.state.post.content}
                     </div>
@@ -97,16 +107,15 @@ class Post extends React.Component {
                                 </div>
                                 <div className='interaction-success px-2 py-1'>
                                     <Share size={18} />
-                                    <span className='mx-2'>{this.state.shares}</span>
+                                    <span className='mx-2'>{this.state.post.sharesCount}</span>
                                 </div>
                             </div>
                         </div>
                         : undefined}
                     {/* comments section */}
                     {this.props.share === undefined ? <CommentsSection post={post}></CommentsSection> : undefined}
+                </UserLabel>
 
-
-                </div>
             </div>
         );
     }

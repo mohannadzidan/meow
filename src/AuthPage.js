@@ -1,8 +1,8 @@
 import React, { useLayoutEffect } from 'react';
-import './Register.scss';
+import './AuthPage.scss';
 import './css/sizes.scss';
 import { At, EnvelopeFill, ExclamationTriangleFill, Eye, KeyFill, PersonFill } from 'react-bootstrap-icons';
-import * as meow from './Meow';
+import {meow} from './service/meow';
 class AuthPage extends React.Component {
     constructor(props) {
         super(props);
@@ -124,12 +124,10 @@ class AuthPage extends React.Component {
                         const rememberMe = e.currentTarget.querySelector('[name="remember-me"]').checked;
                         console.log(password);
                         console.log(email);
-                        meow.auth.signIn({
-                            email: email,
-                            password: password,
-                        }, rememberMe).then(e => {
+                        meow.auth.signIn(email, password).then(e => {
                             console.log(e);
                         }).catch(e => {
+                            console.log(e);
                             this.setState({ errorMessage: e.message });
                         });
                         e.preventDefault();
@@ -163,7 +161,7 @@ class AuthPage extends React.Component {
         );
     }
     render() {
-        return this.state.content === 'login' ? this.loginContent() : this.registerContent();
+        return this.state.content == 'login' ? this.loginContent() : this.registerContent();
     }
 }
 

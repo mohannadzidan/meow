@@ -1,5 +1,5 @@
 import React from 'react';
-import * as meow from "../Meow.js";
+import { meow } from "../service/meow";
 import '../css/sl-loader.scss';
 import '../css/sizes.scss';
 import { randomSkeletonLines } from '../skeleton.js';
@@ -14,28 +14,25 @@ export class Comment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            commentUid: props.comment.uid,
-            userUid: props.comment.userUid,
-            likes: props.comment.likes,
+            comment: props.comment,
             liked: props.comment.liked,
-            content: props.comment.content,
-            timestamp: props.comment.timestamp,
+            likesCount: props.comment.likesCount,
         };
         this.like = this.like.bind(this);
     }
 
     componentDidMount() {
-        meow.user.getByUid(this.state.userUid).then(e => {
+        meow.people.findUserById(this.state.comment.userId).then(e => {
             this.setState({ user: e });
         });
     }
     like() {
-        meow.like.toggle(this.state.commentUid).then(e => {
-            this.setState(e);
-        });
-        this.setState({
-            liked: !this.state.liked
-        });
+        meow.newsfeed.toggleCommentLike(this.state.comment.postId, this.state.comment.id).then(res => {
+            const likesCount = res.liked ? this.state.likesCount + 1 : this.state.likesCount - 1;
+            this.setState({
+                liked: res.liked, likesCount:likesCount
+            });
+        }).catch(console.error);
     }
 
     render() {
@@ -58,27 +55,24 @@ export class Comment extends React.Component {
             );
         }
         return (
-            <div className="ms-5">
-                <UserLabel
-                    uid={user.uid}
-                    displayImageUrl={user.displayImageUrl}
-                    displayName={user.displayName}
-                    username={user.username}
-                    size={30}
-                />
-
-                <div className="ms-5">{this.state.content}</div>
-                <div className="ms-5 d-flex align-items-center">
+            <UserLabel
+                id={user.id}
+                displayImageUrl={user.displayImageUrl}
+                displayName={user.displayName}
+                username={user.username}
+                size={30}
+            >
+                <div >{this.state.comment.content}</div>
+                <div className="d-flex align-items-center">
                     <div onClick={this.like} className={this.state.liked ? 'interaction interaction-danger notify px-2 py-1' : 'interaction interaction-danger px-2 py-1'}>
-                        {this.state.liked ? <HeartFill size={18}></HeartFill> : <Heart size={18}></Heart>}
-                        <span className='mx-2'>{this.state.likes}</span>
+                        {this.state.liked ? <HeartFill size={18} /> : <Heart size={18} />}
+                        <span className='mx-2'>{this.state.likesCount}</span>
                     </div>
                     <span className="col-auto text-secondary small">
-                        {formatDate(this.state.timestamp)}
+                        {formatDate(this.state.comment.timestamp*1000)}
                     </span>
                 </div>
-
-            </div>
+            </UserLabel>
 
         );
     }

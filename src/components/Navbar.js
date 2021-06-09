@@ -2,7 +2,7 @@ import { createPopper } from '@popperjs/core/dist/esm/popper';
 import React from 'react';
 import { BoxArrowRight, Braces, Gear, Person, PersonCircle, PersonFill } from 'react-bootstrap-icons';
 import '../css/navbar-button.scss';
-import { auth } from '../Meow';
+import { meow } from '../service/meow';
 import './Navbar.scss';
 class Navbar extends React.Component {
 
@@ -70,7 +70,7 @@ class Navbar extends React.Component {
                         } ref={this.ui.accountPopperReference} className='nav-btn-secondary'>
                             <div><PersonCircle size={18} /></div>
                         </div>
-                        <div className={'nav-btn-secondary ' + 'notify'}>
+                        <div className={'nav-btn-secondary notify'}>
                             <div>
                                 {/* <Bell size={18}></Bell> */}
                                     3
@@ -80,10 +80,10 @@ class Navbar extends React.Component {
                 </div>
                 <div ref={this.ui.accountPopper} className="hide account-popover card shadow-sm m-2" >
                     <div className='card-body bg-primary row align-items-center gx-1'>
-                        <img className="col-auto rounded-circle wh-px-40" src={auth.user.displayImageUrl} />
+                        <img className="col-auto rounded-circle wh-px-40" src={meow.auth.user.displayImageUrl} />
                         <div className='ms-2 col-auto'>
-                            <span className="text-light fw-bold m-0">{auth.user.displayName}</span>
-                            <div className="text-light small m-0">@{auth.user.username}</div>
+                            <span className="text-light fw-bold m-0">{meow.auth.user.displayName}</span>
+                            <div className="text-light small m-0">@{meow.auth.user.username}</div>
                         </div>
                     </div>
                     <div className='d-flex border-bottom align-content-center'>
@@ -104,7 +104,7 @@ class Navbar extends React.Component {
                         <div onClick={
                             () => {
                                 console.log('sign out');
-                                auth.signOut();
+                                meow.auth.signOut();
                             }
                         } className='col interaction'>
                             <BoxArrowRight size={32} />
